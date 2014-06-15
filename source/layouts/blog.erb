@@ -1,63 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    prompt.sh
-    <%= " | " + current_page.data.title unless current_page.data.title.nil? %>
-  </title>
-  <%= javascript_include_tag "modernizr.min" %>
-  <%= stylesheet_link_tag "fonts/serif/cmun-serif" %>
-  <%= stylesheet_link_tag "fonts/typewriter/cmun-typewriter" %>
-  <%= stylesheet_link_tag "all" %>
-</head>
-<body>
-  <div id="layout" class="pure-skin-prompt pure-g-r">
-    <div class="sidebar pure-u-1-4">
-      <div class="header">
-        <hgroup>
-          <h1 class="brand-title">
-            <a href="/">prompt</a>
-          </h1>
-          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
-        </hgroup>
-      </div>
-      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
-      <!--   <ul> -->
-      <!--     <li><a href="/">Home</a></li> -->
-      <!--     <li><a href="#">About prompt</a></li> -->
-      <!--     <li><a href="#">All posts</a></li> -->
-      <!--   </ul> -->
-      <!-- </nav> -->
-    </div>
-
-    <div class="content pure-u-3-4">
-      <div>
-        <%= yield %>
-
-        <div class="footer">
-          <div class=
-          "pure-menu pure-menu-horizontal pure-menu-open">
-            <ul>
-              <li>
-                <a href="/about.html">About</a>
-              </li>
-
-              <li>
-                <a href=
-                "http://twitter.com/cndreisbach/">Twitter</a>
-              </li>
-
-              <li>
-                <a href="http://github.com/cndreisbach/">GitHub</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <%= javascript_include_tag "all" %>
-</body>
-</html>
+<% wrap_layout :layout do %>
+  <header class="post-header">
+    <h1 class="post-title"><%= current_page.data.title %></h1>
+    <div class="post-meta">Posted on <%= current_page.date.strftime('%Y %b %-d') %></div>
+  </header>
+  <%= yield %>
+<% end %>

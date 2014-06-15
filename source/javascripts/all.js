@@ -1,2 +1,2 @@
-//= require highlight/highlight.pack
+//= require highlight.pack
 hljs.initHighlightingOnLoad();
