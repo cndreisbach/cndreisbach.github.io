@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    prompt.sh
+     | Recursively searching up directories
+  </title>
+  <script src="/javascripts/modernizr.min.js" type="text/javascript"></script>
+  <link href="/stylesheets/fonts/serif/cmun-serif.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/fonts/typewriter/cmun-typewriter.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/all.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="layout" class="pure-skin-prompt pure-g-r">
+    <div class="sidebar pure-u-1-4">
+      <div class="header">
+        <hgroup>
+          <h1 class="brand-title">
+            <a href="/">prompt</a>
+          </h1>
+          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
+        </hgroup>
+      </div>
+      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
+      <!--   <ul> -->
+      <!--     <li><a href="/">Home</a></li> -->
+      <!--     <li><a href="#">About prompt</a></li> -->
+      <!--     <li><a href="#">All posts</a></li> -->
+      <!--   </ul> -->
+      <!-- </nav> -->
+    </div>
+
+    <div class="content pure-u-3-4">
+      <div>
+          <header class="post-header">
+    <h1 class="post-title">Recursively searching up directories</h1>
+    <div class="post-meta">Posted on 2012 Dec 8</div>
+  </header>
+  <p>I found myself needing to search up the directory tree for a specific file recently, much like <code>git</code> does to find the <code>.git</code> directory above it or <a href="https://github.com/sstephenson/rbenv">rbenv</a> does to find the <code>.rbenv_version</code> file that will tell it which Ruby runtime to use. It wasn&#39;t as simple to figure out as I expected.</p>
+
+<p>Here&#39;s the shell function I ended up with:</p>
+
+<pre><code class="sh">findup() {
+    _path=$(pwd)
+    while [[ &quot;$_path&quot; != &quot;&quot; ]]; do
+        if [[ -e &quot;$_path/$1&quot; ]]; then
+            echo &quot;$_path/$1&quot;
+            return 0
+        else
+            _path=${_path%/*}
+        fi
+    done
+    return 1
+}
+</code></pre>
+
+<p>The first few lines of this should be pretty obvious: I&#39;m defining a function, then setting a variable, <code>_path</code>, to the current working directory. Then I enter a loop as long as <code>_path</code> doesn&#39;t equal an empty string.</p>
+
+<div class="article-image image right"><img src="/images/articles/stairs.jpg" alt="Stairs ascending" /><div class="attribution">Image by <a href="http://www.flickr.com/photos/tamburix/">tamburix</a>.</div></div>
+
+<p>Next, in the <code>if</code> statement, I look to see if the file I&#39;m looking for is in the current directory. If so, I print its location and exit with 0, which is the <a href="http://www.gnu.org/software/bash/manual/html_node/Exit-Status.html">exit status</a> for success in Unix-based operating systems.</p>
+
+<p>The <code>else</code> part of the <code>if</code> statement is the only tricky part about this little function. I&#39;m using Bash <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html">parameter substitution</a>. When I use the <code>${var}</code> form to access a variable, I get its value back. I can add to this form to manipulate the return value. <a href="http://tldp.org/LDP/abs/html/parameter-substitution.html#PCTPATREF">Using the <code>${var%pattern}</code> form</a>, I remove from the end of <code>${var}</code> the shortest part that matches my pattern. My pattern in this case is <code>/*</code>, which is going to match everything from the last slash forward; in other words, it will remove the last part of <code>_path</code>, leaving me with the parent directory.</p>
+
+<p>If I get to the root directory (<code>/</code>) and haven&#39;t found the file I&#39;m looking for, I return 1 to let any program using this function that I exited unsuccessfully, in proper Unix fashion.</p>
+
+<p>Drop that function in your <code>.bashrc</code> or <code>.zshrc</code> and you can use it too.</p>
+
+
+
+        <div class="footer">
+          <div class=
+          "pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li>
+                <a href="/about.html">About</a>
+              </li>
+
+              <li>
+                <a href=
+                "http://twitter.com/cndreisbach/">Twitter</a>
+              </li>
+
+              <li>
+                <a href="http://github.com/cndreisbach/">GitHub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/all.js" type="text/javascript"></script>
+</body>
+</html>

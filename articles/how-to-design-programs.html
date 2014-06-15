@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    prompt.sh
+     | How to design programs
+  </title>
+  <script src="/javascripts/modernizr.min.js" type="text/javascript"></script>
+  <link href="/stylesheets/fonts/serif/cmun-serif.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/fonts/typewriter/cmun-typewriter.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/all.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="layout" class="pure-skin-prompt pure-g-r">
+    <div class="sidebar pure-u-1-4">
+      <div class="header">
+        <hgroup>
+          <h1 class="brand-title">
+            <a href="/">prompt</a>
+          </h1>
+          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
+        </hgroup>
+      </div>
+      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
+      <!--   <ul> -->
+      <!--     <li><a href="/">Home</a></li> -->
+      <!--     <li><a href="#">About prompt</a></li> -->
+      <!--     <li><a href="#">All posts</a></li> -->
+      <!--   </ul> -->
+      <!-- </nav> -->
+    </div>
+
+    <div class="content pure-u-3-4">
+      <div>
+          <header class="post-header">
+    <h1 class="post-title">How to design programs</h1>
+    <div class="post-meta">Posted on 2014 Jun 9</div>
+  </header>
+  <div class="note">
+<em>Note:</em> This article was adapted from a lecture I gave to beginning programmers
+in my Ruby on Rails class at <a href="http://theironyard.com/">The Iron Yard</a>. It
+doesn't reflect all the nuances of program design, obviously. I did think it
+was a good explanation for someone coming from little to no programming
+background.
+</div>
+
+<p>When you have a large program to write, you need a framework to figure out how to start. There are two major ways of figuring out how to solve a problem: <em>top-down</em> and <em>bottom-up</em>. Here are examples of how they would apply to the problem &quot;I need to build a blackjack game.&quot;</p>
+
+<h2>Bottom-up</h2>
+
+<p>I sit down and think about what objects make up a blackjack game. I end up with a card, a deck, a hand of cards, a player, and a dealer. Then I make each one as a class with tests, like so:</p>
+
+<ul>
+<li>Make a Card class
+
+<ul>
+<li>A card knows its rank</li>
+<li>A card can display itself as a string</li>
+</ul></li>
+<li>Make a Deck class
+
+<ul>
+<li>A deck can be shuffled</li>
+<li>A deck can deal cards</li>
+<li>know what&#39;s in the deck</li>
+<li>know what&#39;s not in the deck</li>
+</ul></li>
+<li>Make a Hand class
+
+<ul>
+<li>A hand can get cards</li>
+<li>A hand can calculate its total
+
+<ul>
+<li>handle aces</li>
+</ul></li>
+<li>A hand knows if it&#39;s busted</li>
+</ul></li>
+<li>Make a Player class
+
+<ul>
+<li>A player has money</li>
+<li>A player can gain or lose money</li>
+<li>A player has a hand</li>
+</ul></li>
+<li>Make a Dealer class
+
+<ul>
+<li>A dealer has a deck</li>
+<li>A dealer can give players cards</li>
+</ul></li>
+</ul>
+
+<p>At this point, I have most of the pieces I need, but I can&#39;t play a game yet. I need one more class, Game (or BlackjackGame or whatever I want to call it) that orchestrates the other objects. So I:</p>
+
+<ul>
+<li>Make a Game class
+
+<ul>
+<li>sets up the dealer, deck, and player</li>
+<li>it controls input and output</li>
+<li>determines if game over</li>
+</ul></li>
+</ul>
+
+<h2>Top-down</h2>
+
+<p>With the top-down method, take your problem and simplify it until it&#39;s a problem that&#39;s actually approachable. For example, if I was writing a blackjack game, I might do this:</p>
+
+<ul>
+<li>Write a blackjack game, but:
+
+<ul>
+<li>aces are always 1</li>
+<li>there&#39;s no money, just win/lose</li>
+<li>we only play one round</li>
+<li>and no one can hit</li>
+<li>You get two cards, dealer gets two cards, compare, game over.</li>
+</ul></li>
+</ul>
+
+<p>That&#39;s actually doable in just a little code. I would write it in one big clump -- one class, or maybe even no classes.</p>
+
+<p>Once I did that, I&#39;d add in another bit to make it more full-featured. Here&#39;s some of the bits I&#39;d have to tackle.</p>
+
+<ul>
+<li>People can hit to get more cards</li>
+<li>Aces could be 1 or 11</li>
+<li>You can play multiple rounds</li>
+<li>You bet money</li>
+<li>The dealer has to decide when to hit</li>
+</ul>
+
+<p>As you do this, you&#39;re going to see <em>seams</em> in your code -- places where you could naturally pull it apart. For example, you might see that you have to determine the value of a hand, taking into account aces. At that point, you&#39;ll see that the code for hands should be pulled out into a class. As you keep going, keep pulling out classes.</p>
+
+<p>In the top-down method, your code will get a certain flow. You add code to your <a href="http://en.wikipedia.org/wiki/Big_ball_of_mud">big ball of mud</a>, make it work, and then <em>[refactor](http://en.wikipedia.org/wiki/Code</em>refactoring)_ the code to be better organized. Your code will go from clean to messy to clean again, and that&#39;s fine. Just don&#39;t forget to take the time to refactor as you build in more use cases.</p>
+
+<h2>Combined approach</h2>
+
+<p>Most software development is done with a little of each of the above. For example, I might write the simplest possible blackjack program, like in top-down, look at it, decide what classes I see in it, and then write those classes in the bottom-up way, eventually getting rid of my original code. Or, I might go bottom-up, but add as little as possible to each class to get to that minimal blackjack game. Once I have that working, I&#39;d go back and add capabilities to each class.</p>
+
+
+
+        <div class="footer">
+          <div class=
+          "pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li>
+                <a href="/about.html">About</a>
+              </li>
+
+              <li>
+                <a href=
+                "http://twitter.com/cndreisbach/">Twitter</a>
+              </li>
+
+              <li>
+                <a href="http://github.com/cndreisbach/">GitHub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/all.js" type="text/javascript"></script>
+</body>
+</html>

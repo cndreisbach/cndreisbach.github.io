@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    prompt.sh
+     | Hunt the Wumpus using Racket
+  </title>
+  <script src="/javascripts/modernizr.min.js" type="text/javascript"></script>
+  <link href="/stylesheets/fonts/serif/cmun-serif.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/fonts/typewriter/cmun-typewriter.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/all.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="layout" class="pure-skin-prompt pure-g-r">
+    <div class="sidebar pure-u-1-4">
+      <div class="header">
+        <hgroup>
+          <h1 class="brand-title">
+            <a href="/">prompt</a>
+          </h1>
+          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
+        </hgroup>
+      </div>
+      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
+      <!--   <ul> -->
+      <!--     <li><a href="/">Home</a></li> -->
+      <!--     <li><a href="#">About prompt</a></li> -->
+      <!--     <li><a href="#">All posts</a></li> -->
+      <!--   </ul> -->
+      <!-- </nav> -->
+    </div>
+
+    <div class="content pure-u-3-4">
+      <div>
+          <header class="post-header">
+    <h1 class="post-title">Hunt the Wumpus using Racket</h1>
+    <div class="post-meta">Posted on 2012 Feb 5</div>
+  </header>
+  <p>&quot;<a href="http://www.atariarchives.org/bcc1/showpage.php?page=247">Hunt the Wumpus</a>&quot; was the first game I ever typed into a computer. Gregory Yob wrote it in the early 1970s, and I found it in <em>The Best of Creative Computing, Volume 1</em>. I copied the code painstakingly into Disk BASIC on an <a href="http://en.wikipedia.org/wiki/IBM_Personal_Computer_XT">IBM PC XT</a>. And then I played it for hours.</p>
+
+<div class="article-image image right"><img src="/images/articles/wumpus.jpg" alt="Street Wumpus Art" /><div class="attribution">Image by <a href="http://www.flickr.com/photos/tristan_roddis/">tristan_roddis</a>.</div></div>
+
+<p>If there&#39;s a language today as suited for beginners to learn with as BASIC was then, I believe that language is <a href="http://racket-lang.org/">Racket</a>. You can&#39;t boot your computer into a copy of it in ROM, but you can download it for most operating systems, and start it as an application complete with its own integrated editor and interpreter.</p>
+
+<p>Racket is a member of the Lisp family of language, and specifically a member of the Scheme sub-family. This means a few things. First, it means you get to type a lot of parentheses. Second, it means you will compose your program with lots of small functions and will have recursion. Recursion might be a difficult concept for some beginning programmers, but I would counter that it is much easier if you expose yourself to it early before you get FOR loops calcified in your brain.</p>
+
+<p>Anyway, on to the fun! I have written a (slightly modified) version of Hunt the Wumpus in Racket that you can play. You can find the <a href="https://github.com/cndreisbach/prompt.sh/blob/gh-pages/code/wumpus.rkt">full source of the program on Github</a>. To run the game, <a href="https://raw.github.com/cndreisbach/prompt.sh/gh-pages/code/wumpus.rkt">download the source</a>, load it into Racket&#39;s graphical editor, Dr Racket, by using the &quot;File &gt; Open...&quot; menu, click the Run button, and then type <code>(hunt-the-wumpus)</code> into the prompt (called the Interactions window in Racket and known as a <a href="http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> to many programmers.) An even better idea if you are trying to learn Racket is to type in the program by hand. You&#39;ll learn more and probably cause some bugs, which is always exciting and eye-opening.</p>
+
+<p>I left out two features that are in the original Wumpus game. In the original, the player only had five arrows and lost when they used all five up. Also, the player could start the game over with the same map if they lost. Try adding these features and leave a comment to show us your implementation.</p>
+
+
+
+        <div class="footer">
+          <div class=
+          "pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li>
+                <a href="/about.html">About</a>
+              </li>
+
+              <li>
+                <a href=
+                "http://twitter.com/cndreisbach/">Twitter</a>
+              </li>
+
+              <li>
+                <a href="http://github.com/cndreisbach/">GitHub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/all.js" type="text/javascript"></script>
+</body>
+</html>

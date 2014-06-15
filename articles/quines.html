@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    prompt.sh
+     | Quines!
+  </title>
+  <script src="/javascripts/modernizr.min.js" type="text/javascript"></script>
+  <link href="/stylesheets/fonts/serif/cmun-serif.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/fonts/typewriter/cmun-typewriter.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/all.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="layout" class="pure-skin-prompt pure-g-r">
+    <div class="sidebar pure-u-1-4">
+      <div class="header">
+        <hgroup>
+          <h1 class="brand-title">
+            <a href="/">prompt</a>
+          </h1>
+          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
+        </hgroup>
+      </div>
+      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
+      <!--   <ul> -->
+      <!--     <li><a href="/">Home</a></li> -->
+      <!--     <li><a href="#">About prompt</a></li> -->
+      <!--     <li><a href="#">All posts</a></li> -->
+      <!--   </ul> -->
+      <!-- </nav> -->
+    </div>
+
+    <div class="content pure-u-3-4">
+      <div>
+          <header class="post-header">
+    <h1 class="post-title">Quines!</h1>
+    <div class="post-meta">Posted on 2012 Feb 17</div>
+  </header>
+  <p>A quine is a program that, when run, outputs itself. Here&#39;s one you can run in your browser: <code>quine = function () { console.log(&quot;quine = %s; quine()&quot;, quine) }; quine()</code>.</p>
+
+<div class="article-image image right"><img src="/images/articles/quines.jpg" alt="Whorld" /><div class="attribution"><a href="http://www.contextfreeart.org/gallery/view.php?id=1162&cc=yes">"Whorld" by Zol</a>, using Context Free Art</div></div>
+
+<p>If you are using Chrome or Safari to look at this page, you can get to a Javascript console by going to your menu and choosing Tools &gt; Javascript Console. If you are not using one of those, try installing <a href="http://getfirebug.com/">Firebug</a> in Firefox, or download <a href="http://nodejs.org/">node.js</a> and try this at a terminal. Paste the above code into your console and hit enter, and you should see output that looks just like the code. (You might see some extra spaces, depending on what browser or console you are using.)</p>
+
+<p>How does that work? In most versions of Javascript, you can print a function out into a string and get the original source code. You can see that we are repeating our program inside of the string we are printing out. The <code>%s</code> lets us substitute in another piece of information from outside the string. In this case, we substitute the function back into the string, allowing us to print out the original code.</p>
+
+<p>The idea of a program that can duplicate itself is amazing. From the simple program above, we get real-world ideas <a href="https://en.wikipedia.org/wiki/Computer_worm">computer worms</a> and science-fiction like <a href="https://en.wikipedia.org/wiki/The_Matrix">The Matrix</a>. Self-replication is the key to life, and you can make it in just a few lines of code.</p>
+
+<p>To understand how to make your own quine, let&#39;s create one using a programming language called <a href="http://www.lua.org/">Lua</a>. You probably don&#39;t have Lua on your computer, but you can use it online at <a href="http://trylua.org/">Try Lua</a>. We know that we want the output of the program to be itself, but let&#39;s start just by outputting something. (The <code>--&gt;</code> indicates the output of the program.)</p>
+
+<pre><code class="lua">print(&quot;quine&quot;)
+--&gt; quine
+</code></pre>
+
+<p>That obviously doesn&#39;t print the program. We printed the &quot;quine&quot; part, but we need to print the &quot;print&quot; part too. How about this?</p>
+
+<pre><code class="lua">print(&quot;print \&quot;quine\&quot;&quot;)
+--&gt; print &quot;quine&quot;
+</code></pre>
+
+<p>This is going to end up going on forever, with us adding more <code>print</code>s to the front and never getting there. In our Javascript version, we could output the function as text, but we can&#39;t do that in Lua. What should we do? Let&#39;s try saving the program in a string.</p>
+
+<pre><code class="lua">quine = &quot;print(quine)&quot;; print(quine)
+--&gt; print(quine)
+</code></pre>
+
+<p>This is getting somewhere! How do we get the assignment into the output, too?</p>
+
+<pre><code class="lua">quine = &quot;quine = \&quot;print(quine)\&quot;; print(quine)&quot;; print(quine)
+--&gt; quine = &quot;print(quine)&quot;; print(quine)
+</code></pre>
+
+<p>We have the same problem as before: we keep having to add another section to the front which doesn&#39;t get printed. What we need is a way to substitute into the string, like we had in our Javascript version with the <code>%s</code>. Lua has that capability with its <code>string.format</code> function. (I&#39;m going to break up the rest of the code into multiple lines for ease of reading. That may make the quines not exact, in that the spacing may be different, but they should work if you put them on one line.)</p>
+
+<pre><code class="lua">quine = &quot;quine = %s; print(string.format(quine, quine))&quot;;
+print(string.format(quine, quine))
+--&gt; quine = quine = %s; print(string.format(quine, quine));
+--&gt; print(string.format(quine, quine))
+</code></pre>
+
+<p>Oh, man! That almost worked, but if you look close, you can see we are missing the quotes around the string from our original source. Reading the Lua documentation, I found what we need, <code>%q</code>. According to the docs, &quot;The q option formats a string in a form suitable to be safely read back by the Lua interpreter: the string is written between double quotes, and all double quotes, newlines, embedded zeros, and backslashes in the string are correctly escaped when written.&quot; Let&#39;s try it.</p>
+
+<pre><code class="lua">quine = &quot;quine = %q; print(string.format(quine, quine))&quot;;
+print(string.format(quine, quine))
+--&gt; quine = &quot;quine = %q; print(string.format(quine, quine))&quot;;
+--&gt; print(string.format(quine, quine))
+</code></pre>
+
+<p>That worked! It helped that we had a way to render the string inside itself with quotes. Not all languages have this, though, so you might have to resort to trickier solutions. Can you tell why the following Lua version works, even though it doesn&#39;t use <code>%q</code>? What would happen if we tried to escape quotes in the string?</p>
+
+<pre><code class="lua">quine = &quot;quine = %s%s%s; \
+print(string.format(quine, string.char(34), quine, string.char(34)))&quot;;
+print(string.format(quine, string.char(34), quine, string.char(34)))
+</code></pre>
+
+<p>See if you can write a quine in your favorite language, and if so, post a comment with it. If you enjoyed this, check out the further reading.</p>
+
+<h2>Further reading</h2>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/G%C3%B6del%2C_Escher%2C_Bach"><em>Godel, Escher, Bach</em> by Douglas Hofstadter</a></li>
+<li><a href="http://www.nyx.net/~gthompso/quine.htm">The Quine Page</a></li>
+<li><a href="http://www.win.tue.nl/~wstomv/edu/javascript/quine.html">Web Page That Shows Its Own Source Code</a></li>
+</ul>
+
+
+
+        <div class="footer">
+          <div class=
+          "pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li>
+                <a href="/about.html">About</a>
+              </li>
+
+              <li>
+                <a href=
+                "http://twitter.com/cndreisbach/">Twitter</a>
+              </li>
+
+              <li>
+                <a href="http://github.com/cndreisbach/">GitHub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/all.js" type="text/javascript"></script>
+</body>
+</html>

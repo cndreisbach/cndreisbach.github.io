@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    prompt.sh
+     | Getting Started with Clojure using Nightcode
+  </title>
+  <script src="/javascripts/modernizr.min.js" type="text/javascript"></script>
+  <link href="/stylesheets/fonts/serif/cmun-serif.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/fonts/typewriter/cmun-typewriter.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/all.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="layout" class="pure-skin-prompt pure-g-r">
+    <div class="sidebar pure-u-1-4">
+      <div class="header">
+        <hgroup>
+          <h1 class="brand-title">
+            <a href="/">prompt</a>
+          </h1>
+          <h2 class="brand-tagline">Yesterday's computing tomorrow</h2>
+        </hgroup>
+      </div>
+      <!-- <nav class="main-nav pure-menu pure-menu-open"> -->
+      <!--   <ul> -->
+      <!--     <li><a href="/">Home</a></li> -->
+      <!--     <li><a href="#">About prompt</a></li> -->
+      <!--     <li><a href="#">All posts</a></li> -->
+      <!--   </ul> -->
+      <!-- </nav> -->
+    </div>
+
+    <div class="content pure-u-3-4">
+      <div>
+          <header class="post-header">
+    <h1 class="post-title">Getting Started with Clojure using Nightcode</h1>
+    <div class="post-meta">Posted on 2013 Oct 22</div>
+  </header>
+  <p>While using Clojure everyday is a blast, getting started with Clojure isn&#39;t always. Emacs and Vim are good choices for Clojure editors, but they aren&#39;t for everybody and they can be complicated to set up.</p>
+
+<p><a href="https://nightcode.info/">Nightcode</a> is an easy-to-use IDE for Clojure written by Zack Oakes. It bundles everything you need to use Clojure so you can get started quickly.</p>
+
+<p>To use it, first go to the <a href="https://nightcode.info/">Nightcode</a> site and download the most current version. You will need Java installed: if you are using a Mac, you have it installed. If you are using Linux, you probably know how to install it, and if not, look at your distribution&#39;s documentation.</p>
+
+<p>A file called <code>nightcode-x.y.z-standalone.jar</code> will be downloaded, where <code>x.y.z</code> is a version number. As of this article, it&#39;s version 0.1.3.</p>
+
+<p>Go into your <code>Downloads</code> folder (or wherever you save files from your browser) and run the <code>nightcode-x.y.z-standalone.jar</code> file. If you are on a Mac or using a graphical file browser on any operating system, you should be able to double-click it. If not, open a terminal and run the following commands:</p>
+
+<ul>
+<li><code>cd ~/Downloads/</code></li>
+<li><code>java -jar nightcode-*.jar</code></li>
+</ul>
+
+<p>After this, you should see a Nightcode window like the one below.</p>
+
+<p><img alt="Nightcode starting" src="/images/articles/nightcode/starting.png" /></p>
+
+<p>Look at the bottom left of the window where you should see the current version of Clojure and a prompt that says <code>user=&gt;</code>. This area is called the <strong>REPL</strong>, which stands for &quot;Read-Eval-Print-Loop,&quot; or in English, the place where you interact with Clojure. Click to the right of the prompt and enter (+ 1 1). If your window looks like the following, minus the arrows and green text, you are in business.</p>
+
+<p><img alt="Nightcode REPL" src="/images/articles/nightcode/repl.png" /></p>
+
+<p>When you are ready to try making a Clojure project, click the &quot;New Project&quot; button at the top left. Use the file dialog box to navigate to where you want to create your project and type <code>my-clojure-project</code> into the text box beside &quot;File Name,&quot; like in this screenshot.</p>
+
+<p><img alt="Nightcode new project" src="/images/articles/nightcode/new-project-name.png" /></p>
+
+<p>After that, click the &quot;Save&quot; button and you will see another dialog. This one asks what type of project you want to create. As you can see, you have many options, including Java and ClojureScript projects, but for this first one, choose &quot;Console - Clojure&quot; and click &quot;Create Project.&quot; Above the &quot;Create Project&quot; button is a text field for entering the Clojure namespace you want created for your project by default: leave that be for now.</p>
+
+<p><img alt="Nightcode project types" src="/images/articles/nightcode/new-project-type.png" /></p>
+
+<p>Once you&#39;ve done that, the left pane will change to show you a list of all the files in your project. Click the plus sign next to <code>src</code> and then the one that appears next to <code>my_clojure_project</code>. You should see <code>core.clj</code>, which you can click to see the contents of the file.</p>
+
+<p><img alt="Nightcode core.clj" src="/images/articles/nightcode/core.png" /></p>
+
+<p>Right now, this file just has one function, <code>-main</code>, that will print out the text <code>Hello, World!</code>. We&#39;re not going to change this for now: that&#39;s something to do as you&#39;re learning Clojure, which you should be able to do now that you know how to start a project in Nightcode. Let&#39;s look at one more thing you need to know.</p>
+
+<p>Look at the command panel, at the bottom right, highlighted in this screenshot.</p>
+
+<p><img alt="Nightcode core.clj" src="/images/articles/nightcode/command-panel.png" /></p>
+
+<p>In this panel, you&#39;ll see buttons for running your project, as well as &quot;Run with REPL.&quot; Try &quot;Run&quot; first. You should see <code>Hello, World!</code> appear and then the text <code>=== Finished ===</code>, which is just there to let you know the program&#39;s done. Try &quot;Run with REPL&quot; next. It may take a few seconds to run after you click it. Some instruction text will scroll by, and then you&#39;ll see a prompt. Instead of saying <code>user=&gt;</code> like the prompt in the left pane, this should say <code>my-clojure-project.core=&gt;</code>. This indicates that any instructions you type in here will be executed within this namespace.</p>
+
+<p>Lastly, go back up to <code>core.clj</code> and change what the <code>-main</code> function is going to print. You can put anything in between the quotes where <code>Hello, World!</code> is now. Click the &quot;Save&quot; button at the top of the page and then click again in the command panel. If you type <code>(-main)</code> and hit Return, you will notice your change did not take effect. In order to reload your code so you can see the changes, click &quot;Reload&quot; in the command panel. Once you&#39;ve done that, you should be able to type <code>(-main)</code> again and see your changes.</p>
+
+<p>Try out some of the other buttons on your own and see what they do. &quot;Stop&quot; will stop the REPL you&#39;ve created, and &quot;Test&quot; should show you something interesting.</p>
+
+<p>With that, you are ready to create new Clojure projects in Nightcode!  Good luck, and enjoy Clojuring!</p>
+
+
+
+        <div class="footer">
+          <div class=
+          "pure-menu pure-menu-horizontal pure-menu-open">
+            <ul>
+              <li>
+                <a href="/about.html">About</a>
+              </li>
+
+              <li>
+                <a href=
+                "http://twitter.com/cndreisbach/">Twitter</a>
+              </li>
+
+              <li>
+                <a href="http://github.com/cndreisbach/">GitHub</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/javascripts/all.js" type="text/javascript"></script>
+</body>
+</html>

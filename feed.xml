@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blog Name</title>
+  <subtitle>Blog subtitle</subtitle>
+  <id>http://blog.url.com/articles</id>
+  <link href="http://blog.url.com/articles"/>
+  <link href="http://blog.url.com/feed.xml" rel="self"/>
+  <updated>2014-06-08T20:00:00-04:00</updated>
+  <author>
+    <name>Blog Author</name>
+  </author>
+  <entry>
+    <title>How to design programs</title>
+    <link rel="alternate" href="http://blog.url.com/articles/how-to-design-programs.html"/>
+    <id>http://blog.url.com/articles/how-to-design-programs.html</id>
+    <published>2014-06-08T20:00:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;div class="note"&gt;
+&lt;em&gt;Note:&lt;/em&gt; This article was adapted from a lecture I gave to beginning programmers
+in my Ruby on Rails class at &lt;a href="http://theironyard.com/"&gt;The Iron Yard&lt;/a&gt;. It
+doesn't reflect all the nuances of program design, obviously. I did think it
+was a good explanation for someone coming from little to no programming
+background.
+&lt;/div&gt;
+
+&lt;p&gt;When you have a large program to write, you need a framework to figure out how to start. There are two major ways of figuring out how to solve a problem: &lt;em&gt;top-down&lt;/em&gt; and &lt;em&gt;bottom-up&lt;/em&gt;. Here are examples of how they would apply to the problem &amp;quot;I need to build a blackjack game.&amp;quot;&lt;/p&gt;
+
+&lt;h2&gt;Bottom-up&lt;/h2&gt;
+
+&lt;p&gt;I sit down and think about what objects make up a blackjack game. I end up with a card, a deck, a hand of cards, a player, and a dealer. Then I make each one as a class with tests, like so:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make a Card class
+
+&lt;ul&gt;
+&lt;li&gt;A card knows its rank&lt;/li&gt;
+&lt;li&gt;A card can display itself as a string&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make a Deck class
+
+&lt;ul&gt;
+&lt;li&gt;A deck can be shuffled&lt;/li&gt;
+&lt;li&gt;A deck can deal cards&lt;/li&gt;
+&lt;li&gt;know what&amp;#39;s in the deck&lt;/li&gt;
+&lt;li&gt;know what&amp;#39;s not in the deck&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make a Hand class
+
+&lt;ul&gt;
+&lt;li&gt;A hand can get cards&lt;/li&gt;
+&lt;li&gt;A hand can calculate its total
+
+&lt;ul&gt;
+&lt;li&gt;handle aces&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;A hand knows if it&amp;#39;s busted&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make a Player class
+
+&lt;ul&gt;
+&lt;li&gt;A player has money&lt;/li&gt;
+&lt;li&gt;A player can gain or lose money&lt;/li&gt;
+&lt;li&gt;A player has a hand&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Make a Dealer class
+
+&lt;ul&gt;
+&lt;li&gt;A dealer has a deck&lt;/li&gt;
+&lt;li&gt;A dealer can give players cards&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At this point, I have most of the pieces I need, but I can&amp;#39;t play a game yet. I need one more class, Game (or BlackjackGame or whatever I want to call it) that orchestrates the other objects. So I:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make a Game class
+
+&lt;ul&gt;
+&lt;li&gt;sets up the dealer, deck, and player&lt;/li&gt;
+&lt;li&gt;it controls input and output&lt;/li&gt;
+&lt;li&gt;determines if game over&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Top-down&lt;/h2&gt;
+
+&lt;p&gt;With the top-down method, take your problem and simplify it until it&amp;#39;s a problem that&amp;#39;s actually approachable. For example, if I was writing a blackjack game, I might do this:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Write a blackjack game, but:
+
+&lt;ul&gt;
+&lt;li&gt;aces are always 1&lt;/li&gt;
+&lt;li&gt;there&amp;#39;s no money, just win/lose&lt;/li&gt;
+&lt;li&gt;we only play one round&lt;/li&gt;
+&lt;li&gt;and no one can hit&lt;/li&gt;
+&lt;li&gt;You get two cards, dealer gets two cards, compare, game over.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That&amp;#39;s actually doable in just a little code. I would write it in one big clump -- one class, or maybe even no classes.&lt;/p&gt;
+
+&lt;p&gt;Once I did that, I&amp;#39;d add in another bit to make it more full-featured. Here&amp;#39;s some of the bits I&amp;#39;d have to tackle.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;People can hit to get more cards&lt;/li&gt;
+&lt;li&gt;Aces could be 1 or 11&lt;/li&gt;
+&lt;li&gt;You can play multiple rounds&lt;/li&gt;
+&lt;li&gt;You bet money&lt;/li&gt;
+&lt;li&gt;The dealer has to decide when to hit&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As you do this, you&amp;#39;re going to see &lt;em&gt;seams&lt;/em&gt; in your code -- places where you could naturally pull it apart. For example, you might see that you have to determine the value of a hand, taking into account aces. At that point, you&amp;#39;ll see that the code for hands should be pulled out into a class. As you keep going, keep pulling out classes.&lt;/p&gt;
+
+&lt;p&gt;In the top-down method, your code will get a certain flow. You add code to your &lt;a href="http://en.wikipedia.org/wiki/Big_ball_of_mud"&gt;big ball of mud&lt;/a&gt;, make it work, and then &lt;em&gt;[refactor](http://en.wikipedia.org/wiki/Code&lt;/em&gt;refactoring)_ the code to be better organized. Your code will go from clean to messy to clean again, and that&amp;#39;s fine. Just don&amp;#39;t forget to take the time to refactor as you build in more use cases.&lt;/p&gt;
+
+&lt;h2&gt;Combined approach&lt;/h2&gt;
+
+&lt;p&gt;Most software development is done with a little of each of the above. For example, I might write the simplest possible blackjack program, like in top-down, look at it, decide what classes I see in it, and then write those classes in the bottom-up way, eventually getting rid of my original code. Or, I might go bottom-up, but add as little as possible to each class to get to that minimal blackjack game. Once I have that working, I&amp;#39;d go back and add capabilities to each class.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>My bash prompt</title>
+    <link rel="alternate" href="http://blog.url.com/articles/my_bash_prompt.html"/>
+    <id>http://blog.url.com/articles/my_bash_prompt.html</id>
+    <published>2013-10-29T18:16:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;If I&amp;#39;m going to name this blog &lt;code&gt;prompt.sh&lt;/code&gt;, I should probably mention what&amp;#39;s in my own &lt;code&gt;bash&lt;/code&gt; prompt at some point.&lt;/p&gt;
+
+&lt;p&gt;My prompt has expanded and contracted over the years. When developing more in Ruby and Python, I found it very important to keep my current language versions in the prompt, but these days it&amp;#39;s more important to me that my prompt works on every Unix-based machine I might log on to.&lt;/p&gt;
+
+&lt;p&gt;I keep my prompt setup in a file called &lt;a href="https://github.com/cndreisbach/dotfiles/blob/master/.bash/prompt.sh"&gt;&lt;code&gt;prompt.sh&lt;/code&gt;&lt;/a&gt;, of course.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;#39;s what my prompt looks like after running a command for 10 seconds that resulted in an error:&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="prompt screenshot" src="/images/articles/prompt.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;On the first line, I have my current directory then my current Git branch, if I&amp;#39;m in a Git repository. Note the asterisk beside the Git branch: that means that I have uncommitted changes. Next, I have the amount of time the previous command took. This only shows up if the amount of time it took was 5 or more seconds; below that, it&amp;#39;s not that important to know. Lastly, I have the exit status of the last command. I only show this if the exit status is not zero; that is, if there was an error.&lt;/p&gt;
+
+&lt;p&gt;To get the Git branch and the change status, I have these two functions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class="sh"&gt;function parse_git_dirty() {
+  [[ $(git status 2&amp;gt; /dev/null | tail -n1) != *&amp;quot;nothing to commit&amp;quot;* ]] &amp;amp;&amp;amp; echo &amp;quot;*&amp;quot;
+}
+
+function parse_git_branch() {
+  local git_branch=$(git branch --no-color 2&amp;gt; /dev/null | sed -e &amp;#39;/^[^*]/d&amp;#39; -e &amp;quot;s/* \(.*\)/\1$(parse_git_dirty)/&amp;quot;)
+  [[ -z $git_branch ]] || echo &amp;quot; $git_branch&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is all pretty simple stuff. To get the branch, I run &lt;code&gt;git branch&lt;/code&gt; and then use &lt;code&gt;sed&lt;/code&gt; to get the line that starts with &lt;code&gt;*&lt;/code&gt; and strip the &lt;code&gt;*&lt;/code&gt; out. I append an asterisk to that if I know the repo is dirty (that is, there are uncommitted changes.) What&amp;#39;s interesting here is that I pipe &lt;code&gt;STDOUT&lt;/code&gt; to &lt;code&gt;/dev/null&lt;/code&gt; in both these cases, and count on failure -- which will only happen if I&amp;#39;m not in a Git repo -- to produce no text. There is no test to see if I&amp;#39;m in a repo: I just go ahead and try it and print nothing on error.&lt;/p&gt;
+
+&lt;p&gt;The timer code is way more interesting:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class="sh"&gt;function timer_start() {
+  timer=${timer:-$SECONDS}
+}
+
+function timer_stop() {
+  timer_show=$(($SECONDS - $timer))
+  unset timer
+}
+
+function prompt_command() {
+  # ...
+  timer_stop
+  #...
+}
+
+PROMPT_COMMAND=prompt_command
+
+trap timer_start DEBUG
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;SECONDS&lt;/code&gt; increases monotonically like you&amp;#39;d expect: add 1 every second. &lt;code&gt;trap timer_start DEBUG&lt;/code&gt; is a neat piece of code. &lt;code&gt;trap&lt;/code&gt; means &amp;quot;run the following function on the following signal,&amp;quot; and the signal &lt;code&gt;DEBUG&lt;/code&gt; is triggered every time a command is run. So, every time a command is run, &lt;code&gt;timer_start&lt;/code&gt; is run. &lt;code&gt;timer_start&lt;/code&gt; sets &lt;code&gt;timer&lt;/code&gt; to &lt;code&gt;$SECONDS&lt;/code&gt; if it&amp;#39;s not currently set. The function assigned to &lt;code&gt;PROMPT_COMMAND&lt;/code&gt;, which is called &lt;code&gt;prompt_command&lt;/code&gt; in this case, is run every time the prompt is printed. Inside &lt;code&gt;prompt_command&lt;/code&gt;, I execute &lt;code&gt;timer_stop&lt;/code&gt;, which sets the variable &lt;code&gt;timer_show&lt;/code&gt; equal to the timer subtracted from the current value of &lt;code&gt;SECONDS&lt;/code&gt;. I can use &lt;code&gt;timer_show&lt;/code&gt;, which has the calculated value of the amount of time it took to run the last command, when displaying the prompt.&lt;/p&gt;
+
+&lt;p&gt;The rest of what I do, printing error codes and setting colors, is all simple stuff that you can pick up from reading the file.&lt;/p&gt;
+
+&lt;p&gt;When I first set up my current prompt, I colored the &lt;code&gt;$&lt;/code&gt; character on the second line of my prompt. It looked nice, but I found that the characters printed to set the color, normally invisible, sometimes caused the command at the prompt to shift to the right when scrolling up through history.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Getting Started with Clojure using Nightcode</title>
+    <link rel="alternate" href="http://blog.url.com/articles/getting-started-with-clojure-nightcode.html"/>
+    <id>http://blog.url.com/articles/getting-started-with-clojure-nightcode.html</id>
+    <published>2013-10-22T06:29:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;While using Clojure everyday is a blast, getting started with Clojure isn&amp;#39;t always. Emacs and Vim are good choices for Clojure editors, but they aren&amp;#39;t for everybody and they can be complicated to set up.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://nightcode.info/"&gt;Nightcode&lt;/a&gt; is an easy-to-use IDE for Clojure written by Zack Oakes. It bundles everything you need to use Clojure so you can get started quickly.&lt;/p&gt;
+
+&lt;p&gt;To use it, first go to the &lt;a href="https://nightcode.info/"&gt;Nightcode&lt;/a&gt; site and download the most current version. You will need Java installed: if you are using a Mac, you have it installed. If you are using Linux, you probably know how to install it, and if not, look at your distribution&amp;#39;s documentation.&lt;/p&gt;
+
+&lt;p&gt;A file called &lt;code&gt;nightcode-x.y.z-standalone.jar&lt;/code&gt; will be downloaded, where &lt;code&gt;x.y.z&lt;/code&gt; is a version number. As of this article, it&amp;#39;s version 0.1.3.&lt;/p&gt;
+
+&lt;p&gt;Go into your &lt;code&gt;Downloads&lt;/code&gt; folder (or wherever you save files from your browser) and run the &lt;code&gt;nightcode-x.y.z-standalone.jar&lt;/code&gt; file. If you are on a Mac or using a graphical file browser on any operating system, you should be able to double-click it. If not, open a terminal and run the following commands:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;cd ~/Downloads/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;java -jar nightcode-*.jar&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After this, you should see a Nightcode window like the one below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode starting" src="/images/articles/nightcode/starting.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Look at the bottom left of the window where you should see the current version of Clojure and a prompt that says &lt;code&gt;user=&amp;gt;&lt;/code&gt;. This area is called the &lt;strong&gt;REPL&lt;/strong&gt;, which stands for &amp;quot;Read-Eval-Print-Loop,&amp;quot; or in English, the place where you interact with Clojure. Click to the right of the prompt and enter (+ 1 1). If your window looks like the following, minus the arrows and green text, you are in business.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode REPL" src="/images/articles/nightcode/repl.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;When you are ready to try making a Clojure project, click the &amp;quot;New Project&amp;quot; button at the top left. Use the file dialog box to navigate to where you want to create your project and type &lt;code&gt;my-clojure-project&lt;/code&gt; into the text box beside &amp;quot;File Name,&amp;quot; like in this screenshot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode new project" src="/images/articles/nightcode/new-project-name.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, click the &amp;quot;Save&amp;quot; button and you will see another dialog. This one asks what type of project you want to create. As you can see, you have many options, including Java and ClojureScript projects, but for this first one, choose &amp;quot;Console - Clojure&amp;quot; and click &amp;quot;Create Project.&amp;quot; Above the &amp;quot;Create Project&amp;quot; button is a text field for entering the Clojure namespace you want created for your project by default: leave that be for now.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode project types" src="/images/articles/nightcode/new-project-type.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you&amp;#39;ve done that, the left pane will change to show you a list of all the files in your project. Click the plus sign next to &lt;code&gt;src&lt;/code&gt; and then the one that appears next to &lt;code&gt;my_clojure_project&lt;/code&gt;. You should see &lt;code&gt;core.clj&lt;/code&gt;, which you can click to see the contents of the file.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode core.clj" src="/images/articles/nightcode/core.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Right now, this file just has one function, &lt;code&gt;-main&lt;/code&gt;, that will print out the text &lt;code&gt;Hello, World!&lt;/code&gt;. We&amp;#39;re not going to change this for now: that&amp;#39;s something to do as you&amp;#39;re learning Clojure, which you should be able to do now that you know how to start a project in Nightcode. Let&amp;#39;s look at one more thing you need to know.&lt;/p&gt;
+
+&lt;p&gt;Look at the command panel, at the bottom right, highlighted in this screenshot.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt="Nightcode core.clj" src="/images/articles/nightcode/command-panel.png" /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this panel, you&amp;#39;ll see buttons for running your project, as well as &amp;quot;Run with REPL.&amp;quot; Try &amp;quot;Run&amp;quot; first. You should see &lt;code&gt;Hello, World!&lt;/code&gt; appear and then the text &lt;code&gt;=== Finished ===&lt;/code&gt;, which is just there to let you know the program&amp;#39;s done. Try &amp;quot;Run with REPL&amp;quot; next. It may take a few seconds to run after you click it. Some instruction text will scroll by, and then you&amp;#39;ll see a prompt. Instead of saying &lt;code&gt;user=&amp;gt;&lt;/code&gt; like the prompt in the left pane, this should say &lt;code&gt;my-clojure-project.core=&amp;gt;&lt;/code&gt;. This indicates that any instructions you type in here will be executed within this namespace.&lt;/p&gt;
+
+&lt;p&gt;Lastly, go back up to &lt;code&gt;core.clj&lt;/code&gt; and change what the &lt;code&gt;-main&lt;/code&gt; function is going to print. You can put anything in between the quotes where &lt;code&gt;Hello, World!&lt;/code&gt; is now. Click the &amp;quot;Save&amp;quot; button at the top of the page and then click again in the command panel. If you type &lt;code&gt;(-main)&lt;/code&gt; and hit Return, you will notice your change did not take effect. In order to reload your code so you can see the changes, click &amp;quot;Reload&amp;quot; in the command panel. Once you&amp;#39;ve done that, you should be able to type &lt;code&gt;(-main)&lt;/code&gt; again and see your changes.&lt;/p&gt;
+
+&lt;p&gt;Try out some of the other buttons on your own and see what they do. &amp;quot;Stop&amp;quot; will stop the REPL you&amp;#39;ve created, and &amp;quot;Test&amp;quot; should show you something interesting.&lt;/p&gt;
+
+&lt;p&gt;With that, you are ready to create new Clojure projects in Nightcode!  Good luck, and enjoy Clojuring!&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Being the Angry Guy</title>
+    <link rel="alternate" href="http://blog.url.com/articles/anger.html"/>
+    <id>http://blog.url.com/articles/anger.html</id>
+    <published>2013-10-20T14:50:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;blockquote class="twitter-tweet"&gt;&lt;p&gt;It is zero stretch to imagine &lt;a href="https://twitter.com/cndreisbach"&gt;@cndreisbach&lt;/a&gt; having this conversation. &lt;a href="http://t.co/SPlJYOnKFI"&gt;http://t.co/SPlJYOnKFI&lt;/a&gt;&lt;/p&gt;&amp;mdash; Marc Esher (@marcesher) &lt;a href="https://twitter.com/marcesher/statuses/391595036384952320"&gt;October 19, 2013&lt;/a&gt;&lt;/blockquote&gt;
+
+&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;img alt="Dilbert cartoon" src="/images/articles/anger-dilbert.gif" /&gt;&lt;/p&gt;
+
+&lt;p&gt;Last Friday, I saw the above message from my co-worker Marc come across Twitter. Of all my co-workers, Marc&amp;#39;s the one I spend the most time talking to, and the one who knows me the best. I didn&amp;#39;t know exactly what to think at first. It was kind of funny, and definitely correct, but I don&amp;#39;t think of myself as this short-tempered angry guy.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s not the first time I&amp;#39;ve had this reputation, and so it&amp;#39;s obviously well-earned. I think I&amp;#39;ve had it at every job. One time, a guy I supervised told me I reminded him of the main character on &amp;quot;this new television show called &lt;em&gt;House&lt;/em&gt;.&amp;quot; I&amp;#39;d not seen it at the time, and so I asked &amp;quot;how so?&amp;quot; and he said, &amp;quot;well, he&amp;#39;s very smart and no-nonsense.&amp;quot; The poor guy did not tell me that also he is a jerk who is abusive to the people he supervises.&lt;/p&gt;
+
+&lt;p&gt;I don&amp;#39;t want to be this guy. Most jobs that I&amp;#39;ve left, I left because I had some emotional moment where I lost my cool and then was embarrassed by it. I&amp;#39;ve never been asked to leave a job for any reason, which is unbelievable, given that one time I stood on top of a conference room table and told someone they were an idiot. (I was much, much younger and way more hot-headed than I am now.) Even though I was never asked to leave, I left many jobs because I didn&amp;#39;t like that people thought of me as this emotional hot-head. It&amp;#39;s the main reason I left an incredible job at &lt;a href="http://viget.com"&gt;Viget Labs&lt;/a&gt; and another incredible job at &lt;a href="http://thinkrelevance.com"&gt;Relevance&lt;/a&gt;. It&amp;#39;s one of the reasons the thought of leaving my current job crosses my mind often, and only my love of &lt;a href="https://github.com/cfpb/qu/"&gt;my project&lt;/a&gt; has kept me from seriously considering it. I started going to therapy again because I don&amp;#39;t want to quit my job, but was going to if I didn&amp;#39;t get control over my anger.&lt;/p&gt;
+
+&lt;figure class="article-image image right"&gt;&lt;img width="400px" src="/images/articles/anger.jpg" alt="Angry Cat" /&gt;&lt;figcaption&gt;Image by &lt;a href="http://www.flickr.com/photos/activars/"&gt;jing.dong&lt;/a&gt;.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;I know I&amp;#39;m not the only person who suffers from this. I&amp;#39;ve met lots of people in my industry, usually of the same type: a hotshot known for &amp;quot;speaking honestly&amp;quot; and able to get away with being a smart-ass and a jerk because they are considered a good coder. If you are this guy or girl, it&amp;#39;s probably fun, especially if you&amp;#39;re under 30. You definitely get a lot of good laughs. Comedy is based in transgression, and so your own breaking of social norms cracks others up.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s not as fun to be this person when you&amp;#39;re approaching 40 and have a kid you want to be a good role model for. I look at the people I most respect in my field, and they are all of another type: quiet people who are ridiculously competent but humble about it and have a quick wit. Their wit is focused on being self-deprecrating instead of lashing out. As I get older, I want to be one of these people (not least because they are the majority of people who get to remain employed in this young person&amp;#39;s field.)&lt;/p&gt;
+
+&lt;p&gt;When I was a kid, my dad told me two things I think about a lot. One was &amp;quot;son, you will never have a lot of friends.&amp;quot; He meant because I think quickly and aren&amp;#39;t at ease around other people, and he was right. It&amp;#39;s a lot of the reason I get so angry: I don&amp;#39;t understand why people are being what seems to me to be obtuse (but in actuality, I&amp;#39;m not taking the time to be empathic.) The other thing was &amp;quot;it takes a lifetime to build a good reputation and a minute to lose it.&amp;quot; I doubt I&amp;#39;ll ever be known as the humble friendly guy at my current job, but I&amp;#39;m going to try. My field has enough problems without me being a jerk, too.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Postscript&lt;/strong&gt;: Lest Marc read this and think I didn&amp;#39;t like his tweet, no worries. I &lt;em&gt;did&lt;/em&gt; like it, and not only is it zero stretch to imagine me having that conversation, I&amp;#39;m pretty sure I have had it. The tweet cracked me up; it also made me think.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>A Death in the Family, or Elementary</title>
+    <link rel="alternate" href="http://blog.url.com/articles/elementary-os.html"/>
+    <id>http://blog.url.com/articles/elementary-os.html</id>
+    <published>2013-09-20T20:00:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;figure class="article-image right"&gt;&lt;img src="/images/articles/dead_mac.gif" alt="Dead Mac" /&gt;&lt;/figure&gt;
+
+&lt;p&gt;Last week, my spouse&amp;#39;s beloved old white Macbook died. It lived long enough for us to use Migration Assistant, but the screen is never coming back on. We are not exactly rolling in gold coins at &lt;code&gt;prompt.sh&lt;/code&gt; HQ, so I decided to give her my newer Macbook Pro (about 3 years old, I think, although upgraded with an SSD and 8 GB of RAM about a year ago) instead of buying a new computer.&lt;/p&gt;
+
+&lt;p&gt;As you can imagine, this left me in a quandry. What computer to use? I have a &lt;a href="http://www.thinkwiki.org/wiki/Category:X120e"&gt;Lenovo ThinkPad x120e&lt;/a&gt;, a nice little laptop that won a Best in Show award at CES 2011. I got it super-cheap to have as a Linux machine about a year ago, and upgraded it with a nice SSD and 8 GB of RAM. I always like to have a travel laptop, something under $500 that could be stolen or destroyed without my heart going with it. When I&amp;#39;ve used the x120e in the past, though, I&amp;#39;ve been underwhelmed: Ubuntu runs pretty slow on it. Ubuntu isn&amp;#39;t exactly lightweight anymore, though, so I decided to give it another try with another Linux distro: &lt;a href="http://elementaryos.org/"&gt;Elementary OS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The current version of Elementary, Luna, is based off Ubuntu 12.04 LTS, so I&amp;#39;ve got a stable system. I normally like to use a well-supported distro, and save newer or less-supported ones for VMs, but the look and feel of Elementary was nice and after some testing on a VM, it seemed I could use it like any Ubuntu spin. (I&amp;#39;ve tried both Lubuntu and Xubuntu and have never fallen in love with them.)&lt;/p&gt;
+
+&lt;figure class="article-image image right"&gt;&lt;img width="400px" src="/images/articles/eos_system_settings.png" alt="Elementary System Settings" /&gt;&lt;figcaption&gt;You look kind of familiar...&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;So far, I really like it! It&amp;#39;s snappy. The default window manager is not a tiling WM, but it has hotkeys to move window &lt;a href="http://spectacleapp.com/"&gt;Spectacle&lt;/a&gt;-style, which is what I was using in OS X. A lot of its look-and-feel seem to be aping OS X, but that&amp;#39;s not an especially bad idea. One of Elementary&amp;#39;s selling points is the list of applications the Elementary developers have made, and they are very nice. The file browser and terminal are very simple and usable, and their mail and music applications are growing on me. I&amp;#39;m still using webmail, but my favorite task manager, &lt;a href="http://hiveminder.com/"&gt;Hiveminder&lt;/a&gt;, lets me manage tasks via IMAP, so I&amp;#39;ve been using the Elementary mail app for that.&lt;/p&gt;
+
+&lt;p&gt;I had to replace &lt;a href="http://www.backblaze.com/"&gt;Backblaze&lt;/a&gt; as my off-site backup system, as it doesn&amp;#39;t support Linux. I went with the neckbeardiest option, &lt;a href="http://www.tarsnap.com/"&gt;Tarsnap&lt;/a&gt;, which is both cheap and working.&lt;/p&gt;
+
+&lt;p&gt;The hardest part hasn&amp;#39;t been moving off OS X; it&amp;#39;s been moving off a really powerful computer to a much weaker one. The AMD Fusion E-350 processor in my ThinkPad is a lot better than an Atom chip, but it&amp;#39;s still pretty anemic. (It does get great battery life, though.) The graphics card is weak sauce, especially since I get the choice between a buggy, but slightly-better-performing closed source driver, and a stable but pokey open-source driver. (I&amp;#39;m sticking with the open source one because it handles multiple monitors better.) Suddenly, I can&amp;#39;t open 20 tabs in my browser. Flash is actually slow. Too much JavaScript can choke my computer. This might be a blessing in disguise: I&amp;#39;ll be more conscientious about what I&amp;#39;m developing if it&amp;#39;s slow on my own box.&lt;/p&gt;
+
+&lt;p&gt;For years, I was a Linux user, and then about 9 years ago, I got a Mac and became a convert. Over the last few years, I&amp;#39;ve had these weird pangs of conscience and jumped back to Linux from time to time, even wiping my Macbook and running Linux on it, but it&amp;#39;s never stuck. This time, it wasn&amp;#39;t some open-source longing; it was necessity. Necessity seems to work better: I haven&amp;#39;t flipped out and run to the Apple store yet.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Teen Tech Camp 2013 - Python and Pi</title>
+    <link rel="alternate" href="http://blog.url.com/articles/teen-tech-camp.html"/>
+    <id>http://blog.url.com/articles/teen-tech-camp.html</id>
+    <published>2013-08-16T20:00:00-04:00</published>
+    <updated>2014-06-14T22:47:54-04:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;On August 13, I was lucky enough to get to help with the 2nd annual Durham County Library Teen Tech Camp. It was organized by &lt;a href="http://juliaelman.com/"&gt;Julia Elman&lt;/a&gt; and &lt;a href="http://kahnlab.com/"&gt;Sarah Kahn&lt;/a&gt;, while &lt;a href="http://kurtgrandis.com/blog/"&gt;Kurt Grandis&lt;/a&gt; developed the curriculum. All I had to do was stand in front of a room of awesome teens and teach them to program in Python all day, which was awesome. I am one of the rare people who enjoys public speaking, and I love helping people learn about technology, so I was in heaven.&lt;/p&gt;
+
+&lt;figure class="article-image image"&gt;&lt;img src="/images/articles/teentechcamp-teaching.jpg" alt="Teaching at Teen Tech Camp" /&gt;&lt;figcaption class="attribution"&gt;Photo by &lt;a href="https://twitter.com/greenlightnc"&gt;@greenlightnc&lt;/a&gt;.&lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;We had the coolest setup this year: we had twenty workstations, each with a &lt;a href="http://www.raspberrypi.org/"&gt;Raspberry Pi&lt;/a&gt;, monitor, keyboard, and mouse. We got the Pis through a grant from the Python Software Foundation and the peripherals through donations. The teens got to take home their Pis, plus any of the peripherals they needed, and even though they knew going in that they were getting the Pi, many of them seemed incredulous. It was so fun to see them light up when they realized what it could do and that they could continue to play with it.&lt;/p&gt;
+
+&lt;p&gt;The disk image we used for all the Pis had &lt;a href="http://pi.minecraft.net/"&gt;Minecraft Pi Edition&lt;/a&gt; on it, which was a brilliant move, I think. For the first half of the day, I kept the kids&amp;#39; attention pretty well. In the afternoon, you started to see more of them explore the filesystem and find stuff, including Python games and Minecraft, and we improvised to make sure they stayed engaged.&lt;/p&gt;
+
+&lt;p&gt;It was a great day, and I hope to get to do it again. I&amp;#39;ve been looking at the &lt;a href="http://www.bootstrapworld.org"&gt;Bootstrap curriculum&lt;/a&gt;, which uses Racket to program simple videogames, and am hoping to volunteer to run that as an after-school program at a local middle school. I&amp;#39;m very happy to live in an area where we have great people and great organizations, like the library and &lt;a href="http://splatspace.org/"&gt;Splat Space&lt;/a&gt;, putting together programs like this for kids.&lt;/p&gt;
+
+&lt;figure class="article-image image"&gt;&lt;img src="/images/articles/teentechcamp-group.jpg" alt="Teens with their Raspberry Pis" /&gt;&lt;figcaption class="attribution"&gt;Photo by Julia Elman.&lt;/figcaption&gt;&lt;/figure&gt;
+</content>
+  </entry>
+</feed>
