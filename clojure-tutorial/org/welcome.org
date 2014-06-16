@@ -1,0 +1,12 @@
+#+TITLE: Welcome
+
+#+TAGS: slide(s)
+
+** Welcome                                                            :slide:
+*** Schedule
+**** First hour: Introduction to Clojure - REPL, functions, Java + exercises
+**** 10-20 minute break
+**** Next hour: Namespaces, collections, flow control
+**** 45 minutes of questions, exercises, practice
+*** Play Along
+**** You can get slides and example code from https://github.com/crnixon/clojure-tutorial
