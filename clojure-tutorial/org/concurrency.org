@@ -1,8 +1,0 @@
-#+TITLE: Clojure Concurrency
-
-#+TAGS: slide(s)
-
-* pmap
-* Delays
-* Futures
-* Promises
